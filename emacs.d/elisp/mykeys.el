@@ -111,9 +111,10 @@
 
 (global-set-key [\C-c \C-c] 'comment-region)
 
+(global-set-key (kbd "C-x g") 'magit-status)
+
 ;; todo: make this elisp-mode specific
 (global-set-key [\C-c\C-r] 'eval-region)
-
 
 (global-set-key [?\C-c ?\C-c] 'comment-region) 
 
