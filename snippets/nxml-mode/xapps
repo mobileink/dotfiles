@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: apply-templates-select
+# key: xapps
+# binding: direct-keybinding
+# --
+<xsl:apply-templates select="$0"/>

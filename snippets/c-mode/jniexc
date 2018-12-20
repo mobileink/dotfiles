@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: jniexc
+# key: jniexc
+# binding: direct-keybinding
+# --
+    if((*env)->ExceptionOccurred(env)) { return OC_STACK_ERROR; }

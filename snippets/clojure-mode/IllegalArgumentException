@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: IllegalArgumentException
+# key: IllegalArgumentException
+# binding: direct-keybinding
+# --
+(throw (IllegalArgumentException. (str "$0")))

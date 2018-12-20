@@ -1,0 +1,18 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: lanesee
+# key: lanesee
+# binding: direct-keybinding
+# --
+$0
+<div2 n="${1:enumerate}" type="root" org="uniform" sample="complete" part="N"
+      sib:ed="gar" sib:ref="${2:enumerate}">
+      <head TEIform="head">
+      	    <foreign lang="ar" TEIform="foreign">$1</foreign>
+      </head>
+      <entryFree>
+	<form>
+		<orth orig="" extent="full" lang="ar">$1</orth>
+      	</form>
+	See: <foreign lang="ar" TEIform="foreign">$2</foreign>
+      </entryFree>
+</div2>

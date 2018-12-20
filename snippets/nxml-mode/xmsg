@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: xmsg
+# key: xmsg
+# binding: direct-keybinding
+# --
+<xsl:message>
+	$0
+</xsl:message>

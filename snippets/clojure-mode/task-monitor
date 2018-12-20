@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: task-monitor
+# key: task-monitor
+# binding: direct-keybinding
+# --
+(deftask monitor
+  "watch etc."
+  []
+  (comp (watch)
+        (notify :audible true)
+        (pom)
+        (jar)
+        (install)))

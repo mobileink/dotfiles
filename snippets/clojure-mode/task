@@ -1,0 +1,16 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: task
+# key: task
+# binding: direct-keybinding
+# --
+(boot/deftask $1
+  [v verbose boot "verbose"]
+  (fn middleware [next-handler]
+    (fn handler [fileset]
+      (if verbose (util/info "Running task '$1'\n"))
+      (let [workspace (boot/tmp-dir!)
+            target-middleware (comp
+                               $0
+                               )
+            target-handler (target-middleware next-handler)]
+        (target-handler fileset)))))

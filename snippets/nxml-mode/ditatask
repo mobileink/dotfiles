@@ -1,0 +1,43 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ditatask
+# key: ditatask
+# binding: direct-keybinding
+# --
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
+
+<task id="$1">
+  <title>$2</title>
+  <shortdesc>
+    $3
+  </shortdesc>
+
+  <taskbody>
+    <prereq>$3</prereq>
+
+    <context>
+      <p>
+      </p>
+
+      <note>
+      </note>
+    </context>
+
+
+    <steps>
+      <step>
+        <cmd>$4</cmd>
+
+        <info></info>
+
+        <stepxmp><screen></screen></stepxmp>
+
+        <stepresult>
+	  <p></p>
+        </stepresult>
+      </step>
+    </steps>
+
+  </taskbody>
+</task>
+

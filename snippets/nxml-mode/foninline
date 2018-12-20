@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: foinline
+# key: foinline
+# binding: direct-keybinding
+# --
+<fo:inline>$0</fo:inline>

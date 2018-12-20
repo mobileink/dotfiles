@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ditarelated
+# key: ditarelated
+# binding: direct-keybinding
+# --
+    <related-links>
+      <link href="$1" format="$2" scope="external">
+	<linktext>$0</linktext>
+      </link>
+    </related-links>

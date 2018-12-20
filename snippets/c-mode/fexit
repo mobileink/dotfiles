@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: fexit
+# key: fexit
+# binding: direct-keybinding
+# --
+    printf("%s: EXIT\n", __func__);

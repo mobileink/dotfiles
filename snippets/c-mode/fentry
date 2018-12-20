@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: fentry
+# key: fentry
+# binding: direct-keybinding
+# --
+    printf("%s: ENTRY, tid %ld\n", __func__, (intptr_t)pthread_self());

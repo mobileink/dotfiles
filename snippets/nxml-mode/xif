@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: xif
+# key: xif
+# binding: direct-keybinding
+# --
+<xsl:if test="$1">
+	      $0
+</xsl:if>

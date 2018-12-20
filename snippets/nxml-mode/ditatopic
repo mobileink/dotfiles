@@ -1,0 +1,15 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ditatopic
+# key: ditatopic
+# binding: direct-keybinding
+# --
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd" >
+
+<topic id="$1">
+  <title>$2</title>
+  <body>
+    <p>$0</p>
+  </body>
+</topic>
+

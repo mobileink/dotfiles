@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: xval
+# key: xval
+# binding: direct-keybinding
+# --
+<xsl:value-of select="$0"/>

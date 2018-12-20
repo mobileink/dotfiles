@@ -1,0 +1,26 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: task-edn
+# key: task-edn
+# binding: direct-keybinding
+# --
+(boot/deftask $1
+  [v verbose boot "verbose"]
+  (fn middleware [next-handler]
+    (fn handler [fileset]
+      (if verbose (util/info "Running task '$1'\n"))
+      (let [workspace (boot/tmp-dir!)
+            $2-edn-files (->> fileset
+                                         boot/input-files
+                                         (boot/by-re [(re-pattern (str $2-edn "$"))]))
+            $2-edn-f (condp = (count $2-edn-files)
+                                  0 (throw (Exception. $2-edn-files " file not found"))
+                                  1 (first $2-edn-files)  ;; this is a boot.tmpdir.TmpFile
+                                  (throw (Exception.
+                                          (str "Only one " $2-edn " file allowed"))))
+            $2-edn-map (-> (boot/tmp-file $2-edn-f) slurp read-string)
+
+            target-middleware (comp
+                               $0
+                               )
+            target-handler (target-middleware next-handler)]
+        (target-handler fileset)))))

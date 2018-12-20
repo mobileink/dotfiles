@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: foblock
+# key: fob
+# binding: direct-keybinding
+# --
+<fo:block>
+	       $0
+</fo:block>

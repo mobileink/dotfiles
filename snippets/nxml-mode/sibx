@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: sib:xx
+# key: sibx
+# binding: direct-keybinding
+# --
+<xsl:element name="sib:xx">
+	     <xsl:attribute name="rid">
+	     		    <xsl:number/>
+	     </xsl:attribute/>
+</xsl:element>
+$0

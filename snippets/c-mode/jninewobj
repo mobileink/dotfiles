@@ -1,0 +1,25 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: jninewobj
+# key: jninewobj
+# binding: direct-keybinding
+# --
+    /* create an object */
+    const char* c_class_string = "$0";
+    char msg[80];
+    jclass x_class = (*env)->FindClass(env, c_class_string);
+    if (x_class == NULL) {
+	sprintf(msg, "FindClass failed for %s\n", c_class_string);
+	THROW_JNI_EXCEPTION(msg);
+	return NULL;
+    }
+    jmethodID mid_ctor = (*env)->GetMethodID(env, x_class, "<init>", "()V");
+    if (mid_ctor == NULL) {
+	sprintf(msg, "GetFieldID failed for ctor of %s\n", c_class_string);
+	THROW_JNI_EXCEPTION(msg);
+	return NULL;
+    }
+    jobject j_obj = (*env)->NewObject(env, x_class, mid_ctor);
+    if (mid_ctor == NULL) {
+	sprintf(msg, "NewObject failed for %s\n", c_class_string);
+	THROW_JNI_EXCEPTION(msg);
+    }

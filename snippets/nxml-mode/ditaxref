@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ditaxref
+# key: ditaxref
+# binding: direct-keybinding
+# --
+<xref format="html" scope="external"
+      href="$1">$0

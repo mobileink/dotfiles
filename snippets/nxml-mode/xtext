@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: xtext
+# key: xtext
+# binding: direct-keybinding
+# --
+<xsl:text>$0</xsl:text>

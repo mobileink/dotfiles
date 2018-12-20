@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: asource
+# key: asource
+# binding: direct-keybinding
+# --
+[source,$1]
+----
+$0
+----

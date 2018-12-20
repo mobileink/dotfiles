@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: xvar
+# key: xvar
+# binding: direct-keybinding
+# --
+<xsl:variable name="$1">
+	      $0
+</xsl:variable>

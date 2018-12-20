@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: throw
+# key: throw
+# binding: direct-keybinding
+# --
+(throw ($1. (str $0)))
