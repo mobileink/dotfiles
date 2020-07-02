@@ -3,4 +3,4 @@
 # key: xval
 # binding: direct-keybinding
 # --
-<xsl:value-of select="$0"/>
+<xsl:value-of select="$1"/>$0

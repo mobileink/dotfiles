@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: qcontrol
+# key: qcontrol
+# expand-env: ((yas-wrap-around-region t))
+# binding: C-c C-c c
+# --
+<control>$0</control>$1

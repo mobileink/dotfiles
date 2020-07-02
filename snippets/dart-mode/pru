@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: pru
+# key: pru
+# --
+print('''`(uuidgen-4)`:  $0''');

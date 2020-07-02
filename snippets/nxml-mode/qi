@@ -1,8 +1,7 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: xml:element
-# key: xelt
+# name: qi
+# key: qi
 # binding: direct-keybinding
+
 # --
-<xsl:element name="$1">
-	     $0
-</xsl:element>
+<item qid="$1" nshapid="$2" desc="$3">$0

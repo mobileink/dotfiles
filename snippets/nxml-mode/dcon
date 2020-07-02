@@ -1,0 +1,21 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: dita concept
+# key: dcon
+# binding: direct-keybinding
+# --
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd" []>
+<concept id="$1">
+  <title>$2</title>
+
+  <conbody>
+    <p>
+      $3
+    </p>
+
+    $0
+
+  </conbody>
+
+</concept>
+

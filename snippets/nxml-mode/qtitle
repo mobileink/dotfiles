@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: qnav
+# key: qnav
+# expand-env: ((yas-wrap-around-region t))
+# binding: C-c C-c t
+# --
+<title>`(capitalize yas-selected-text)`</title>

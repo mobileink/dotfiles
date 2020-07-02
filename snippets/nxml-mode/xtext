@@ -3,4 +3,4 @@
 # key: xtext
 # binding: direct-keybinding
 # --
-<xsl:text>$0</xsl:text>
+<xsl:text>$1</xsl:text>$0

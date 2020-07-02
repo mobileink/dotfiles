@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: richtext
+# key: richtext
+# binding: direct-keybinding
+# --
+RichText(
+    textScaleFactor: 1.5,
+    text: TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: [$1]
+    )
+)$0

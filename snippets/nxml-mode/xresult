@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: result-document
+# key: xresult
+# binding: direct-keybinding
+# --
+<xsl:result-document href="$1">
+  <xsl:apply-templates select="$0"/>
+</xsl:result-document>

@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: dartrix-param
+# key: dartrixparam
+# binding: direct-keybinding
+# --
+- name       : $1
+  abbr       : $2
+  docstring  : $3
+  typeHint   : $4
+  defaultsTo : $5
+  help       : $6
+  seg        : $7
+$0

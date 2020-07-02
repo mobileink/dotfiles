@@ -1,8 +1,7 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: xml:element
-# key: xelt
+# name: qnav
+# key: qnav
 # binding: direct-keybinding
+
 # --
-<xsl:element name="$1">
-	     $0
-</xsl:element>
+<nav r="$1" goto="$2"/>$0

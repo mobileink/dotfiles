@@ -1,8 +1,7 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: xml:element
-# key: xelt
+# name: xvarsel
+# key: xvarsel
 # binding: direct-keybinding
 # --
-<xsl:element name="$1">
-	     $0
-</xsl:element>
+<xsl:variable name="$1" select="$2"/>
+$0

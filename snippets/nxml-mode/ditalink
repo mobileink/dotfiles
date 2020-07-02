@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ditalink
+# key: ditalink
+# binding: direct-keybinding
+# --
+<link href="$1"
+      format="$2" scope="external">
+  <linktext>$0</linktext>
+</link>

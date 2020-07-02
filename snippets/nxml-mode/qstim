@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: qstim
+# key: qstim
+# expand-env: ((yas-wrap-around-region t))
+# binding: C-c C-c s
+# --
+<stimulus>
+  <rogv>
+    $0
+  </rogv>
+</stimulus>$1

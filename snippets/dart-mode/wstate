@@ -1,0 +1,30 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: StatefulWidget
+# key: wstate
+# binding: direct-keybinding
+# --
+class $1 extends StatefulWidget {
+
+  const $1({Key key}): super(key: key);
+
+  @override State<StatefulWidget> createState() {
+    return _$1();
+  }
+}
+
+class _$1 extends State<$1> {
+  @override
+  initState() {
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    $0
+  }
+}

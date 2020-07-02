@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: qcontext
+# key: qcontext
+# expand-env: ((yas-wrap-around-region t))
+# binding: C-c C-c x
+# --
+<context>$0</context>$1

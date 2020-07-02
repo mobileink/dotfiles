@@ -1,8 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: xml:element
-# key: xelt
+# name: xseq
+# key: xseq
 # binding: direct-keybinding
 # --
-<xsl:element name="$1">
-	     $0
-</xsl:element>
+<xsl:sequence select="$1"/>$0

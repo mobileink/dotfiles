@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: qdecl
+# key: qdecl
+# expand-env: ((yas-wrap-around-region t))
+# binding: C-c C-c d
+# --
+<decl>$0</decl>
+$1

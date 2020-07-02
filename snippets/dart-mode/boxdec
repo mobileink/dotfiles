@@ -1,0 +1,15 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: BoxDecoration
+# key: boxdec
+# binding: direct-keybinding
+# --
+decoration: BoxDecoration(
+  color: Colors.$1lightBlue[50], // fills box
+  gradient: LinearGradient( // overrides color
+    begin: Alignment.bottomLeft,
+    end: Alignment.topRight,
+    colors: [Colors.$2lightBlue[50], Colors.$3blue[900]]
+  ),
+  border: Border.all(color: Colors.$4blue),
+  borderRadius: BorderRadius.all(Radius.circular(40$5)),
+),$0

@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Padding
+# key: padding
+# binding: direct-keybinding
+# --
+Padding(
+  padding: EdgeInsets.only(left: $1, right: $2, top: $3, bottom: $4),
+  child: $0

@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: call-template
+# key: xcall
+# binding: direct-keybinding
+# --
+<xsl:call-template name="$1">
+  <xsl:with-param name="$2">$3</xsl:with-param>
+</xsl:call-template>$0

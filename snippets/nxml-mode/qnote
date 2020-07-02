@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: nqx note
+# expand-env: ((yas-wrap-around-region t))
+# binding: C-c C-c v
+# --
+<computed/>
+<vartext>$0</vartext>
+$1

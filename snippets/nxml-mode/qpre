@@ -1,8 +1,7 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: xml:element
-# key: xelt
+# name: qpre
+# key: qpre
 # binding: direct-keybinding
+
 # --
-<xsl:element name="$1">
-	     $0
-</xsl:element>
+<precon rid="$1" r="$2"/>$0

@@ -1,0 +1,14 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: dita section
+# key: dsec
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t))
+# binding: direct-keybinding
+# --
+<section>
+<title>$1</title>
+<p>
+$2
+</p>
+$0
+</section>
+

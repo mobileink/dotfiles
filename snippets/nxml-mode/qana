@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: qana
+# key: qana
+# expand-env: ((yas-wrap-around-region t))
+# binding: C-c C-c a
+# --
+<anaphor>$0</anaphor>$1
