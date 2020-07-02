@@ -1,4 +1,5 @@
 # ## PATH setup: see manpage for path_helper
+# echo "bash_profile"
 
 # According to
 # http://serverfault.com/questions/16355/how-to-set-global-path-on-os-x,
@@ -30,21 +31,35 @@ function path(){
     IFS=$old
 }
 
-echo "PATH at .bash_profile startup:" $PATH
-path
+# echo "PATH at .bash_profile startup:" $PATH
+# path
 
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig
 export GNUTERM="aqua"
 
+# Xcode
+function xcode() {
+if pkgutil --pkgs=com.apple.pkg.Xcode >/dev/null; then
+    echo Xcode: $(pkgutil --pkg-info=com.apple.pkg.Xcode | awk '/version:/ {print $2}')
+else
+    echo Xcode: not installed
+fi
+
+# Command Line Tools for Xcode
+if pkgutil --pkgs=com.apple.pkg.CLTools_Executables >/dev/null; then
+    echo CommandLineTools: $(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables | awk '/version:/ {print $2}')
+else
+    echo CommandLineTools: not installed
+fi
+}
+
 ANT_HOME=/usr/local/java/ant
 # Jetty Config
-export JETTY_HOME=/usr/local/java/jetty
+export JETTY_HOME=/usr/local/share/jetty-distribution-9.2.5.v20141112
 # export JETTY_USER=_jetty
 export JETTY_LOGS=/var/log/jetty
 export CLOJURESCRIPT_HOME=~/src/clojurescript
 export CLJ_JAR=~/.m2/repository/org/clojure/clojure/1.6.0/clojure-1.6.0.jar
-export DITAOT_HOME=/usr/local/ditaot
-export DITAC_HOME=/usr/local/ditac
 export MAVEN_REPO=~/.m2/repository
 export XSLT_JAR=/usr/local/jar/saxon9he.jar
 export XSLUTIL_BIN=/usr/local/share/xslutil_perso-4_4_1/bin
@@ -73,7 +88,7 @@ function removeFromPath() {
   export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
 }
 
-JAVA_VERSION=1.7
+JAVA_VERSION=11
 setjdk $JAVA_VERSION
 
 
@@ -160,16 +175,19 @@ export PATH=$PATH:$CLOJURESCRIPT_HOME/bin
 # ant
 # export PATH=$PATH:$ANT_HOME/bin
 
-export PATH=~/.cabal/bin:$PATH
+# cabal, haskell, etc.
+# export PATH=$HOME/Library/Haskell/bin:$PATH
+
 
 # android
-export ANDROID_HOME="/Applications/Android Studio.app/sdk"
+export ANDROID_SDK_ROOT=~/adt-bundle-mac-x86_64-20140702/sdk
+export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk-bundle
+export PATH=$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH
 
-export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
-
+# java
 export JAVA_HOME=`/usr/libexec/java_home -v $JAVA_VERSION`
 
-export CLASSPATH=\"".:$JAVA_HOME/lib/tools.jar:/Applications/netrexx/lib/NetRexxC.jar:src/main/nrx:build/classes/debug:"$ANDROID_HOME"/platforms/android-19/android.jar:$ANDROID_HOME/extras/android/support/v13/android-support-v13.jar:$ANDROID_HOME/extras/android/support/v7/appcompat/libs/android-support-v7-appcompat.jar:$ANDROID_HOME/extras/android/support/v7/appcompat/libs/android-support-v4.jar:$CLASSPATH"\"
+export CLASSPATH=\"".:$JAVA_HOME/lib/tools.jar:/Applications/netrexx/lib/NetRexxC.jar:src/main/nrx:build/classes/debug:"$ANDROID_SDK_ROOT"/platforms/android-19/android.jar:$ANDROID_SDK_ROOT/extras/android/support/v13/android-support-v13.jar:$ANDROID_SDK_ROOT/extras/android/support/v7/appcompat/libs/android-support-v7-appcompat.jar:$ANDROID_SDK_ROOT/extras/android/support/v7/appcompat/libs/android-support-v4.jar:$CLASSPATH"\"
 
 # Set architecture flags
 export ARCHFLAGS="-arch x86_64"
@@ -184,5 +202,51 @@ fi
 # Ruby enVironment Manager
 ##[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-# Pebble SDK
-export PATH=/Users/gar/pebble-dev/PebbleSDK-current/bin:$PATH
+# dita-ot
+export DITAOT_HOME=/usr/local/share/dita
+export DITAC_HOME=/usr/local/share/ditac
+export PATH=$PATH:/usr/local/share/dita/bin
+
+GPG_TTY=$(tty)
+
+# bazel
+source ~/.bazel/bin/bazel-complete.bash
+
+# crosstool-NG
+CROSSTOOL_NG_HOME=/Volumes/CrosstoolNG
+
+# fop
+export PATH=$PATH:/usr/local/share/fop/fop
+
+# dart stuff
+export PATH=$PATH:/${HOME}/.pub-cache/bin
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/gar/sdk/google-cloud-sdk/path.bash.inc' ]; then . '/Users/gar/sdk/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/gar/sdk/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/gar/sdk/google-cloud-sdk/completion.bash.inc'; fi
+
+# export PATH=${HOME}:${PATH}
+
+# graal R
+# export R_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-java11-19.3.0.2/Contents/Home/languages/R
+# export PATH=${R_HOME}/bin:$PATH
+
+export PATH=$PATH:/Applications/CoqIDE_8.11.0.app/Contents/Resources/bin
+
+# chromium dev
+# export PATH="$PATH:$HOME/sdk/depot_tools"
+
+source $HOME/.dartrix.d/bashrc
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/gar/.sdkman"
+[[ -s "/Users/gar/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/gar/.sdkman/bin/sdkman-init.sh"
+
+# opam configuration
+test -r /Users/gar/.opam/opam-init/init.sh && . /Users/gar/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export OPAMROOT="$HOME/.opam"

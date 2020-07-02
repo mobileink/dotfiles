@@ -1,5 +1,5 @@
-
-echo "bashrc"
+## warning: echo here breaks remote scp
+## echo "bashrc"
 
 ################################################################
 ##  command prompt
@@ -170,10 +170,18 @@ function pdfpp()
        ${3}
 }
 
+pidportfunction() {
+lsof -n -i4TCP:$1 | grep LISTEN
+}
+
+alias pidport=pidportfunction
+
+# android workaround:
+function emulator { cd "$(dirname "$(which emulator)")" && ./emulator "$@"; }
 
 # using MacPorts versions of coreutils ("g" prefix for gnu stuff)
 if [ "$TERM" != "dumb" ]; then
-    export LS_OPTIONS='--color=auto -hF'
+    export LS_OPTIONS='--color=auto -hF --ignore-backups'
     eval `gdircolors ~/.dir_colors`
 fi
 alias cd=cd_func
@@ -193,6 +201,8 @@ alias emd='/Applications/Emacs.app/Contents/MacOS/Emacs --daemon'
 alias em='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient --no-wait'
 alias emn='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient -c --no-wait'
 
+alias less='less -R'
+
 if [[ $BASH_VERSION > "2.05a" ]]; then
   # ctrl+w shows the menu
   bind -x "\"\C-w\":cd_func -- ;"
@@ -202,7 +212,7 @@ fi
 # Export Variables
 #
 # export PROMPT_COMMAND=prompt_command
-export PS1="\w\n\\$ "
+export PS1="\H:\w\n\\$ "
 
 ## Postgresql
 #export PGPORT=5432
@@ -213,3 +223,43 @@ export PS1="\w\n\\$ "
 
 # rvm = ruby pkg mgr
 # PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+# echo "PATH:"
+# path
+# export PATH=/Users/gar/bin:/Users/gar/android/sdk/tools:/Users/gar/android/sdk/platform-tools:/Users/gar/Library/Haskell/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/Library/TeX/texbin:/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin:/Users/gar/src/clojurescript/bin:/Users/gar/depot_tools
+
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH:$HOME/.local/bin"
+
+export PATH=$PATH:$HOME/sdk/flutter/bin
+
+export PATH="$PATH":"$HOME/sdk/flutter/.pub-cache/bin"
+
+# cocoapods ruby
+# By default, binaries installed by gem will be placed into:
+export PATH="/usr/local/lib/ruby/gems/2.5.0/bin:$PATH"
+
+#For compilers to find ruby you may need to set:
+#  export LDFLAGS="-L/usr/local/opt/ruby/lib"
+#  export CPPFLAGS="-I/usr/local/opt/ruby/include"
+
+#For pkg-config to find ruby you may need to set:
+#  export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
+
+# export PATH=/usr/local/share/saxon/saxon9he.jar:${XERCES}/resolver.jar:$PATH
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# for ct-ng, which needs ncursesw:
+# If you need to have ncurses first in your PATH run:
+#   echo 'export PATH="/usr/local/opt/ncurses/bin:$PATH"' >> ~/.bash_profile
+
+# For compilers to find ncurses you may need to set:
+#   export LDFLAGS="-L/usr/local/opt/ncurses/lib"
+#   export CPPFLAGS="-I/usr/local/opt/ncurses/include"
+
+# For pkg-config to find ncurses you may need to set:
+#   export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"
+
+# brew install:
+export PATH="/usr/local/opt/go@1.12/bin:$PATH"
+
+# installed by bazelisk? $(go env GOPATH) = ~/go
+export PATH=$PATH:$(go env GOPATH)/bin
