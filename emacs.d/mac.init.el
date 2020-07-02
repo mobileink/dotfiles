@@ -1,22 +1,113 @@
+(let ((path (expand-file-name "~/.emacs.d/elisp")))
+  (if (file-accessible-directory-p path)
+      (add-to-list 'load-path path t)))
+
+
 ;و;(when (>= emacs-major-version 24)
 (require 'package)
+
+;; ;;(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;; ;;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+;; ;;  )
+
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+	("melpa-stable" . "https://stable.melpa.org/packages/")
+	("melpa" . "https://melpa.org/packages/"))
+      tls-checktrust t
+      tls-program '("gnutls-cli --x509cafile %t -p %p %h")
+      gnutls-verify-error t)
 (package-initialize)
-;;(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
-;;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-;;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
-;;  )
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
+(setq use-package-always-ensure nil)
+
+(unless (require 'use-package nil t)
+  (if (not (yes-or-no-p (concat "Refresh packages, install use-package and"
+				" other packages used by init file? ")))
+      (error "you need to install use-package first")
+    (package-refresh-contents)
+    (package-install 'use-package)
+    (require 'use-package)
+    (setq use-package-always-ensure t)))
 
 
-(when (memq window-system '(mac ns))
-;; NB: the shell path is the same one you get opening a shell, i.e. in the case of bash it runs ~/.bash_profile etc.
-  (message "window-system:" window-system)
+;;; ### Workaround for security vulnerability in Emacs >= 21.1 and < 25.3 ###
+;;;
+;;;  See [Changes in Emacs 25.3](https://www.gnu.org/software/emacs/news/NEWS.25.3)
+
+(eval-after-load "enriched"
+    '(defun enriched-decode-display-prop (start end &optional param)
+       (list start end)))
+
+(use-package uuidgen
+  :demand)
+
+(use-package helm-descbinds
+  :demand
+  :config
+  (helm-descbinds-mode))
+
+;;; List of personal key bindings
+
+(global-set-key (kbd "C-c h b") 'describe-personal-keybindings)
+
+;;; Install [ripgrep](https://github.com/BurntSushi/ripgrep) (rg) and
+;;; add
+
+;; (use-package helm-rg
+;;   :bind
+;;   (("C-c r" . helm-rg)))
+
+;;; File explorer sidebar
+
+(use-package treemacs
+  :bind
+  (("C-c t" . treemacs)
+   ("s-a" . treemacs)))
+
+;;; Cycle through buffers' history
+
+(use-package buffer-flip
+  :bind
+  (("s-o" . buffer-flip)
+   :map buffer-flip-map
+   ("s-o" . buffer-flip-forward)
+   ("s-O" . buffer-flip-backward)
+   ("C-g" . buffer-flip-abort)))
+
+;;; [fzf](https://github.com/junegunn/fzf) and
+;;; [lcd](https://github.com/lukpank/lcd) for finding files and
+;;; directories
+
+(use-package fzf
+  :commands fzf/start
+  :bind
+  (("C-c f" . fzf)
+   ("C-c D" . my-lcd)))
+
+(defun my-lcd ()
+  (interactive)
+  (fzf/start default-directory
+             (fzf/grep-cmd "lcd" "-l %s")))
+
+;; (when (not package-archive-contents)
+;;   (package-refresh-contents))
+
+;; (use-package dired+
+;;              :load-path "~/.emacs.d/elisp/dired+")
+
+;; (when (memq window-system '(mac ns))
+;; ;; NB: the shell path is the same one you get opening a shell, i.e. in the case of bash it runs ~/.bash_profile etc.
+;;   (message (make-string "window-system:" window-system))
+;;   (exec-path-from-shell-initialize)
+;; )
+
+  ;; (message (make-string "window-system:" window-system))
   (exec-path-from-shell-initialize)
-)
+
 
 ;; (setq exec-path
 ;;       '(
@@ -33,10 +124,95 @@
 
 ;; (message (getenv "PATH"))
 
-(add-to-list 'load-path "~/.emacs.d/elisp")
 ;; (load "my-abbrevs")
 
+;; dart
+;; (add-to-list 'auto-mode-alist '("\.dart$" . java-mode))
+
+;; c++ templates
+(add-to-list 'auto-mode-alist '("\.tcc$" . c++-mode))
+
+;; (load "hava-mode.el")
+;; (add-to-list 'auto-mode-alist '("\.hava$" . hava-mode))
+
+;; ocaml - https://dev.realworldocaml.org/install.html
+;;(add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
+(setq auto-mode-alist
+      (append '(("\\.ml[ily]?$" . tuareg-mode)
+                ("\\.topml$" . tuareg-mode))
+              auto-mode-alist))
+
+(autoload 'utop-minor-mode "utop" "Minor mode for utop" t)
+(add-hook 'tuareg-mode-hook 'utop-minor-mode)
+
+(add-hook 'tuareg-mode-hook 'merlin-mode)
+(setq merlin-use-auto-complete-mode t)
+(setq merlin-error-after-save nil)
+
+;; (load "edn-mode.el")
+(require 'edn)
+(add-to-list 'auto-mode-alist '("\.edn$" . edn-mode))
+
+;; xql
+;; (load "xquery-mode.el")
+(require 'xquery-mode)
+(add-to-list 'auto-mode-alist '("\.xql$" . xquery-mode))
+(add-to-list 'auto-mode-alist '("\.xqm$" . xquery-mode))
+(add-to-list 'auto-mode-alist '("\.xq$" . xquery-mode))
+
+;; bazel
+(load "bazel-mode.el")
+;; bazel-mode doesn't do indenting; use python mode
+(add-to-list 'auto-mode-alist '("\\.bazelrc" . bazel-mode))
+(add-to-list 'auto-mode-alist '("BUILD$" . bazel-mode))
+(add-to-list 'auto-mode-alist '("/BUILD\\(\\..*\\)?\\'" . bazel-mode))
+(add-to-list 'auto-mode-alist '("WORKSPACE$" . bazel-mode))
+(add-to-list 'auto-mode-alist '("/WORKSPACE\\'" . bazel-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(BUILD\\|WORKSPACE\\|bzl\\)\\'" . bazel-mode))
+
+
+;; Remove all annoying modes from auto mode lists
+
+(defun replace-alist-mode (alist oldmode newmode)
+  (dolist (aitem alist)
+    (if (eq (cdr aitem) oldmode)
+    (setcdr aitem newmode))))
+
 ;; (add-to-list 'load-path "~/.emacs.d/ProofGeneral/generic/")
+;; (add-to-list 'load-path "~/.emacs.d/elpa/proof-general-4.4/generic/")
+;; (replace-alist-mode auto-mode-alist 'verilog-mode 'proof-general-mode)
+
+;; PROOF GENERAL stuff
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (add-to-list 'package-archives
+               (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+(package-initialize)
+
+;; Bootstrap use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+
+;; Install ProofGeneral
+(use-package proof-general
+  :ensure t
+  :mode ("\\.v\\'" . coq-mode)
+  :init
+  (setq coq-prog-name "coqtop")         ; or "C:/Coq/bin/coqtop.exe"…
+)
+
+;; Install company-coq
+(use-package company-coq
+  :ensure t
+  :hook
+  (coq-mode . company-coq-mode)
+  :init
+  (setq company-coq-disabled-features '(hello prettify-symbols)))
 
 ;; (load "~/.emacs.d/init.el")
 (custom-set-variables
@@ -51,10 +227,11 @@
  '(magit-commit-arguments (quote ("--signoff")))
  '(package-selected-packages
    (quote
-    (ggtags helm cider dart-mode yas-jit xcscope solarized-theme smartparens rainbow-delimiters paredit mustache-mode markdown-mode magit ido-vertical-mode ido-ubiquitous ido-at-point groovy-mode gradle-mode exec-path-from-shell ess edn ctags company-math color-theme-solarized color-theme-sanityinc-solarized clojurescript-mode clojure-snippets clojure-quick-repls auto-complete-nxml adoc-mode)))
+    (dune rust-mode go-mode bazel-mode utop tuareg iedit merlin proof-general uuidgen buffer-flip fzf helm-rg treemacs helm-descbinds use-package kotlin-mode company-coq helm-ls-git helm-make helm-system-packages helm-unicode xquery-tool ess-smart-equals ess-smart-underscore yaml-mode yang-mode expand-region rnc-mode helm-gtags helm-cider helm ggtags dart-mode yas-jit xcscope solarized-theme smartparens rainbow-delimiters paredit mustache-mode markdown-mode magit ido-vertical-mode ido-ubiquitous ido-at-point groovy-mode gradle-mode exec-path-from-shell ess edn ctags company-math color-theme-solarized color-theme-sanityinc-solarized clojurescript-mode clojure-snippets clojure-quick-repls auto-complete-nxml adoc-mode)))
  '(rng-schema-locating-files
    (quote
     ("schemas.xml" "/Applications/Emacs.app/Contents/Resources/etc/schema/schemas.xml" "/usr/local/xml/schema/dita/schemas.xml"))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -73,6 +250,8 @@
 (if (boundp 'w32-quote-process-args)
     (setq w32-quote-process-args ?\")) ;; Include only for MS Windows. "
 
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 (show-paren-mode t)
 ;;(setq show-paren-style 'parenthesis) ; highlight just brackets
@@ -194,18 +373,6 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
-(setq initial-frame-alist
-       '((left . 100)
-	 (top . 50)
-	 (height . 50)
-	 (width . 215)))
-
-(setq default-frame-alist
-       '((left . 100)
-	 (top . 50)
-	 (height . 50)
-	 (width . 215)))
-
 ;;(autoload 'toggle-show-trailing-whitespace "utils" "utils" t)
 (defun toggle-show-trailing-whitespace ()
   (interactive)
@@ -227,6 +394,9 @@
   (interactive)
   (uniquify-region-lines (point-min) (point-max)))
 
+
+(setenv "JAVA_HOME"
+        "/Library/Java/JavaVirtualMachines/graalvm-ce-java11-19.3.0.2/Contents/Home")
 
  (add-hook 'c-mode-common-hook
 	   (lambda ()
@@ -308,13 +478,14 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 
+(add-hook 'BibTeX-mode-hook (lambda () (setq fill-prefix nil)))
 
 ;; (require 'smartparens-config)
 
 ;;  Clojure
 ;;(require 'clojure-mode)
 
-;;(add-to-list 'auto-mode-alist '("\\.cljs$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.cljd$" . clojure-mode))
 ;;(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
 
 ;; (load (expand-file-name "~/.emacs.d/elisp/migae"))
@@ -364,6 +535,8 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
+;; (require 'arb-minor-mode)
+
 ;; ;; Remove Yasnippet's default tab key binding
 ;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
 ;; (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -381,20 +554,18 @@
 ;;(add-to-list 'load-path "~/.emacs.d/elisp/doc-mode-1.1")
 (add-to-list 'auto-mode-alist '("\\.adoc$" . adoc-mode))
 (autoload 'adoc-mode "adoc-mode")
-(add-hook 'adoc-mode-hook (lambda() (buffer-face-mode f)))
+(add-hook 'adoc-mode-hook (lambda() (buffer-face-mode nil)))
 
-;; bazel
-(add-to-list 'auto-mode-alist '("BUILD$" . python-mode))
-
-
-;(require 'ess-site)
+;;(load "ess-autoloads")
+;;(require 'ess-r-mode)
+(require 'ess-site)
 
 ;;
 ;; ESS julia language
 ;; https://github.com/emacs-ess/ESS/wiki/Julia
 ;; excecutable file
-(setq inferior-julia-program-name
-      "/Applications/Julia-0.2.1.app/Contents/Resources/julia/bin/julia-basic")
+;; (setq inferior-julia-program-name
+;;       "/Applications/Julia-0.2.1.app/Contents/Resources/julia/bin/julia-basic")
 ;; nope:  "/Applications/Julia/Contents/Resources/julia/bin/julia")
 ;; put julia/bin on PATH instead?
 
@@ -441,7 +612,6 @@
 
 (load "mykeys")
 
-;; (load-file "dir/generic/proof-site.el")
 ;;(require 'proof-site)
 
 ;; (setenv "ATSHOME" "/usr/local/lib/ats2-postiats-0.1.2")
@@ -465,16 +635,16 @@
   (message "system-type: darwin")
 
   ;; default Latin font (e.g. Consolas)
-  (set-face-attribute 'default t :family "Monaco")
+  (set-face-attribute 'default t :family "Kawkab Mono")
 
-  (set-default-font "Monaco")
+  (set-frame-font "Kawkab Mono")
 
   ;; default font size (point * 10)
   ;;
   ;; WARNING!  Depending on the default font,
   ;; if the size is not supported very well, the frame will be clipped
   ;; so that the beginning of the buffer may not be visible correctly. 
-  (set-face-attribute 'default nil :height 135)
+  (set-face-attribute 'default nil :height 155)
 
   ;; use specific font for Korean charset.
   ;; if you want to use different font size for specific charset,
@@ -484,4 +654,89 @@
   ;; you may want to add different for other charset in this way.
   )
 
+(setq initial-frame-alist
+       '((left . 80)
+	 (top . 50)
+	 (height . 30)
+	 (width . 160)))
+
+(setq default-frame-alist
+       '((left . 80)
+	 (top . 50)
+	 (height . 30)
+	 (width . 160)))
+
 (split-window-right)
+
+;; for nshap codebooks
+;; (defun wrap-qtext (b e) ;; txt)
+;;   "simple wrapper"
+;;   (interactive "r")
+;;   (save-restriction
+;;     (narrow-to-region b e)
+;;     (goto-char (point-min))
+;;     ;; (insert txt)
+;;     (insert "<qtext>")
+;;     (goto-char (point-max))
+;;     (insert "</qtext>")))
+
+;; (global-set-key (kbd "C-c M-q") 'wrap-qtext)
+
+;; (defun wrap-desc (b e) ;; txt)
+;;   "wrap description"
+;;   (interactive "r")
+;;   (save-restriction
+;;     (narrow-to-region b e)
+;;     (goto-char (point-min))
+;;     ;; (insert txt)
+;;     (insert "<desc>")
+;;     (goto-char (point-max))
+;;     (insert "</desc>")))
+
+;; (global-set-key (kbd "C-c M-d") 'wrap-desc)
+
+;; (defun wrap-note (b e) ;; txt)
+;;   "wrap note"
+;;   (interactive "r")
+;;   (save-restriction
+;;     (narrow-to-region b e)
+;;     (goto-char (point-min))
+;;     ;; (insert txt)
+;;     (insert "<note>")
+;;     (goto-char (point-max))
+;;     (insert "</note>")))
+
+;; (global-set-key (kbd "C-c M-n") 'wrap-note)
+
+;; (defun wrap-skip (b e) ;; txt)
+;;   "wrap skip note"
+;;   (interactive "r")
+;;   (save-restriction
+;;     (narrow-to-region b e)
+;;     (goto-char (point-min))
+;;     ;; (insert txt)
+;;     (insert "<skip-if>")
+;;     (goto-char (point-max))
+;;     (insert "</skip-if>")))
+
+;; (global-set-key (kbd "C-c M-k") 'wrap-skip)
+
+;; (defun quex-loc ;; (b e)
+;;   "insert quex loc elt"
+;;   (interactive "r")
+;;   (save-restriction
+;;     ;; (narrow-to-region b e)
+;;     ;; (goto-char (point-min))
+;;     ;; (insert txt)
+;;     (insert "<quex id='' list-label=''>")))
+
+(global-set-key (kbd "C-c M-k") 'wrap-skip)
+
+(global-set-key (kbd "C-c M-k") 'yas-insert-snippet)
+
+(defun unfill-paragraph ()
+  "Replace newline chars in current paragraph by single spaces.
+This command does the reverse of `fill-paragraph'."
+  (interactive)
+  (let ((fill-column 90002000))
+    (fill-paragraph nil)))
