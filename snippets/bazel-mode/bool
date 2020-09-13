@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: bflag
+# key: bflag
+# binding: direct-keybinding
+# --
+bool_flag( name = "$1",
+           build_setting_default = $2)
+config_setting( name = "_$1",
+                flag_values = { ":$1": $3 })
+$0

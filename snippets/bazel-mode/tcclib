@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: tcclib
+# key: tcclib
+# binding: direct-keybinding
+# --
+cc_library(
+    name = "$1",
+    visibility = ["//visibility:public"],
+    hdrs = glob(["*.hpp"]) + glob(["*.tcc"]),
+)
+$0

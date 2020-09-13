@@ -1,0 +1,18 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: cpplib
+# key: cpplib
+# binding: direct-keybinding
+# --
+cc_library(
+    name = "$1",
+    visibility = ["//visibility:public"],
+    srcs = glob(["*.cpp"])
+    + [
+    ],
+    hdrs = glob([".hpp"])
+    + glob(["*.tcc"])
+    + [
+    ],
+    deps = ["$2"]
+)
+$0

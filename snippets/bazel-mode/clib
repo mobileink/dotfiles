@@ -1,0 +1,16 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: clib
+# key: clib
+# binding: direct-keybinding
+# --
+cc_library(
+    name = "$1",
+    visibility = ["//visibility:public"],
+    srcs = glob[("*.c")]
+    +[
+    ],
+    hdrs = glob[(".h")]
+    +[
+    ],
+)
+$0

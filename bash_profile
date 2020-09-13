@@ -34,7 +34,7 @@ function path(){
 # echo "PATH at .bash_profile startup:" $PATH
 # path
 
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/opt/local/lib/pkgconfig
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 export GNUTERM="aqua"
 
 # Xcode

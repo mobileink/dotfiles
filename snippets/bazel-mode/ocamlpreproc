@@ -1,0 +1,24 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ocaml preprocessing
+# key: ocamlpp
+# binding: direct-keybinding
+# --
+genrule(
+    name = "preproc",
+    message = "Preprocessing sources...",
+    tools = ["$1"],
+    srcs = [
+        "$2",
+    ],
+    outs = [
+        "_tmp_/$3",  # avoid name clashes
+    ],
+    cmd = "for f in $(SRCS);"
+    + "do"
+    + "    BNAME=\`basename $$f\`;"
+    + "    $(location $1)"
+    # + "    --dump-ast"
+    + "    $$f > $(@D)/_tmp_/$$BNAME;"
+    + " done"
+)
+$0

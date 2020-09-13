@@ -86,7 +86,7 @@
     ("rbind"     "⦊"  nil 0) ;; 298A Z NOTATION RIGHT BINDING BRACKET
     ("zcomp"     "⨟"  nil 0) ;; 2A1F Z NOTATION SCHEMA COMPOSITION
     ("zproj"     "⨡"  nil 0) ;; 2A21 Z NOTATION PROJECTION
-    
+
     ;; arrows
     ("rar"    "→" nil 0)
     ("rrar"   "⇒" nil 0)
@@ -116,7 +116,7 @@
 ;; todo: make this elisp-mode specific
 (global-set-key [\C-c\C-r] 'eval-region)
 
-(global-set-key [?\C-c ?\C-c] 'comment-region) 
+(global-set-key [?\C-c ?\C-c] 'comment-region)
 
 (global-set-key [C-M-\\] 'indent-region)
 (global-set-key [\C-/] 'undo)

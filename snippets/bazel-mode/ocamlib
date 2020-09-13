@@ -1,0 +1,28 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: ocamlib
+# key: ocamlib
+# binding: direct-keybinding
+# --
+ocaml_library(
+    name = "$1",
+    visibility = ["//visibility:public"],
+    message = "Compiling library...",
+    copts = ["-linkall",
+             # "-predicates", "ppx_deriving",
+             # "-predicates", "ppx_driver",
+             ## to produce a cmxa: -a
+             "-a",
+
+             ## to produce a set of cmi/cmx/o files: -c -linkpkg
+             # "-c",
+             # "-linkpkg", ## not compatible with -a
+
+             # "-intf-suffix", "cmi",
+    ],
+    srcs = ["$2"],
+    deps = [
+        "@opam//pkg:core_kernel",
+        $3
+    ],
+)
+$0

@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: httparchive
+# key: httparchive
+# binding: direct-keybinding
+# --
+http_archive(
+    name="$1",
+    url="$2",
+    sha256="$3",
+    strip_prefix = "$4",
+    build_file_content = all_content
+    # build_file = "@//:foo.BUILD"
+)

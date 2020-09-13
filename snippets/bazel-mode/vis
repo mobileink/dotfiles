@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: vis
+# key: vis
+# binding: direct-keybinding
+# --
+visibility = ["//visibility:public"],$0 # __pkg__, __subpackages__

@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: cppbin
+# key: cppbin
+# binding: direct-keybinding
+# --
+cc_binary(
+    name = "$1",
+    visibility = ["//visibility:public"],
+    srcs = glob(["*.cpp"]),
+    deps = ["$2"]
+)
+$0
