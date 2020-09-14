@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava complement min
+# key: min
+# --
+:cmap {:min :*$0}$1

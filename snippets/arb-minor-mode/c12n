@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava construction
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-c c
+# --
+:c12n [{:ar "$1"
+        :gloss $0}]$2

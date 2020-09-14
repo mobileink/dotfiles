@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava verb kabura yakburu
+# key: kbr
+# --
+{:kbr [$1]}$0

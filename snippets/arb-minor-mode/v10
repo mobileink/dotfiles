@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava verb 10
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-v 0
+# --
+{:v [:v10]$1
+ :structs [{:gloss [$0]}]
+}

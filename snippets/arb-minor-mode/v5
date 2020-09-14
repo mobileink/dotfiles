@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava verb 5
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-v 5
+# --
+{:v [:v5]$1
+ :senses [{:gloss [$0]}]
+}

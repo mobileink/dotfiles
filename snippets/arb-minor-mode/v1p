@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava v1 passive
+## e.g. futiHa
+# key: vp
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-v C-p 1
+# --
+{:v [:v1p]
+ :gloss [$0]
+ :cmap [$1]
+}$2

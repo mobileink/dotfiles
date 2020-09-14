@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava noun
+# key: n
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-n n
+# --
+{:n {:m [$1] :f [$2] :pl [$3]}
+ :structs [{:gloss [$0]}]
+}$4

@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava verb fth
+# key: fth
+# --
+{:fth [$1]}$0

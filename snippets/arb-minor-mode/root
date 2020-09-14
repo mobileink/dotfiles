@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava root
+# key: root
+# --
+{:root "$1"
+:forms
+[$0

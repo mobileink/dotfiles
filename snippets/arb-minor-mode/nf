@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava noun fem
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-n f
+# --
+{:n {:f [$1] :pl [$2]}
+ :gloss [$0]
+}$3

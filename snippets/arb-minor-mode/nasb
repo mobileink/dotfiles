@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava nasb
+# key: nasb
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c a
+# --
+{:nasb $1
+ :form "$2"
+ :gloss [$0]
+}$3

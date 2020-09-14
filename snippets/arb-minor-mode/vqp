@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava v quad passive
+## e.g. ثُؤْلِل
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-v C-q p
+# --
+{:v [:vqp]$2
+ :structs [{:cmap [$1]}]
+}

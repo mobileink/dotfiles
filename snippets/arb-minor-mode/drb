@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava verb Drb
+# key: drb
+# --
+{:drb [$1]$0}

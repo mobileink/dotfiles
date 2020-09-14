@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava sifa
+# key: sifa
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-n s
+# --
+{:sifa {:m [$1] :f [$2] :pl [$3]}
+ :structs [{:gloss [$0]}]
+}$4

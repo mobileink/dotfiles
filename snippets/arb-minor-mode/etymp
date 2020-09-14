@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava etym Persian
+# key: ep
+# --
+:etym :persian$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: pagebreak
+# key: يعقوب
+# --
+<يعقوب مجلد="$1"  صفحة="$2"/>

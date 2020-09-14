@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava etym Greek
+# key: eg
+# --
+:etym :greek$0

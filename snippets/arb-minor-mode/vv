@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hava redup verb
+## e.g. balbal
+# key: vv
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))
+# binding: C-c C-v v
+# --
+{:v [:vv]$1
+ :structs [{:gloss [$0]}]
+}

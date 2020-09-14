@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: مقطع segment
+# key: مقطع
+# --
+<مقطع>$0
