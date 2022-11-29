@@ -1,10 +1,13 @@
 ;; https://so.nwalsh.com/2020/02/29/dot-emacs
 
-
 ;; lexical binding: https://nullprogram.com/blog/2016/12/22/
 ;; emacs 27.1: lexical-binding is the default
 ;;; init.el --- -*- lexical-binding: t -*-
 
+
+(when (and (equal emacs-version "27.2")
+           (eql system-type 'darwin))
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 (setq gc-cons-threshold 100000000)
 
@@ -16,7 +19,6 @@
 (let ((path (expand-file-name "~/.emacs.d/elisp")))
   (if (file-accessible-directory-p path)
       (add-to-list 'load-path path t)))
-
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -37,7 +39,7 @@
 (setq straight-use-package-by-default t)
 
 ;; Tell straight to use ssh by default, instead of https.
-(setq straight-vc-git-default-protocol 'ssh)
+;; (setq straight-vc-git-default-protocol 'ssh)
 
 (setq inhibit-startup-message t)
 ;; WTF? If I don't define this, I get weird warnings when byte compiling
@@ -60,6 +62,8 @@
 ;; Updates from [[https://github.com/alhassy/emacs.d][alhassy]].
 ;; Move auto save and backup files out of the way
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+;; (setq auto-save-file-name-transforms
+;;       ((".*" ~/.emacs.d/backups t)))
 ;; Silently delete execess backup versions
 (setq delete-old-versions t)
 ;; Only keep the last 100 backups of a file.
@@ -215,6 +219,18 @@
 ;; (set-face-background 'hl-line "#677")
 (global-font-lock-mode 1)
 
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(straight-use-package 'auctex)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+
 (use-package smartparens)
 ;; (require 'smartparens-config)
 
@@ -269,6 +285,9 @@
       (concat dired-omit-files
               "\\|^\\..+$\\|^\\.?#\\|^\\.$\\|^\\.\\.$\\|^\\..*$"
               "\\|^bazel-.*"
+              "\\|GPATH"
+              "\\|GRTAGS"
+              "\\|GTAGS"
               ))
 
 (add-hook 'dired-mode-hook
@@ -314,7 +333,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package yaml-mode)
 
-(use-package edn)
+(use-package edn
+  :straight t)
 (load "edn-mode.el")
 ;; (require 'edn)
 (add-to-list 'auto-mode-alist '("\.edn$" . edn-mode))
@@ -324,8 +344,15 @@
 ;;(add-to-list 'load-path "~/.emacs.d/elisp/doc-mode-1.1")
 (add-to-list 'auto-mode-alist '("\\.adoc$" . adoc-mode))
 (autoload 'adoc-mode "adoc-mode")
-(add-hook 'adoc-mode-hook (lambda() (buffer-face-mode nil)))
 
+(defun adoc-buffer-face-mode-fixed ()
+   "Sets a fixed width (monospace) font in current buffer"
+   (interactive)
+   (setq buffer-face-mode-face '(:family "Inconsolata" :height 180))
+   (buffer-face-mode))
+
+;; (add-hook 'adoc-mode-hook (lambda() (buffer-face-mode nil)))
+(add-hook 'adoc-mode-hook 'adoc-buffer-face-mode-fixed)
 
 ;;;;;;   NXML
 (use-package auto-complete-nxml)
@@ -390,8 +417,17 @@
    'append)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;     ;;;;;;;;;;;;;;;; Programming Modes ;;;;;;;;;;;;;;;;
+;;    ;;;;;;;; Programming Langauge Modes ;;;;;;;;;;;;;;;;    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq scheme-program-name "mibl")
+
+(add-to-list 'auto-mode-alist '("dune$" . scheme-mode))
+(add-to-list 'auto-mode-alist '("mibl$" . scheme-mode))
+
+(use-package lua-mode)
+
+(require 'lemon-mode)
+(add-to-list 'auto-mode-alist '("\\.y$" . lemon-mode))
 
 ;;;;;; Clojure ;;;;;;
 ;; clojurescript-mode clojure-snippets clojure-quick-repls
@@ -404,7 +440,7 @@
 (use-package clojure-snippets)
 (use-package clojure-quick-repls)
 (add-to-list 'auto-mode-alist '("\\.cljd$" . clojure-mode))
-(use-package helm-cider)
+;; (use-package helm-cider)
 
 ;;(add-to-list 'auto-mode-alist '("\\.edn$" . clojure-mode))
 ;; (define-clojure-indent
@@ -496,15 +532,15 @@
 
 
 ;;;;;; Coq ;;;;;;
-;; (use-package proof-general
-;;   :ensure t
-;;   :mode ("\\.v\\'" . coq-mode)
-;;   :init
-;;   (setq coq-prog-name "coqtop")         ; or "C:/Coq/bin/coqtop.exe"…
-;; )
+(use-package proof-general
+  ;; :ensure t
+  :mode ("\\.v\\'" . coq-mode)
+  :init
+  (setq coq-prog-name "coqtop")         ; or "C:/Coq/bin/coqtop.exe"…
+)
 
 ;; (add-to-list 'load-path "~/.emacs.d/ProofGeneral/generic/")
-;; (add-to-list 'load-path "~/.emacs.d/elpa/proof-general-4.4/generic/")
+(add-to-list 'load-path "~/.emacs.d/elpa/proof-general-4.4/generic/")
 ;; (replace-alist-mode auto-mode-alist 'verilog-mode 'proof-general-mode)
 
 ;; PROOF GENERAL stuff
@@ -532,7 +568,7 @@
 ;;;;;; Kotlin ;;;;;;
 (use-package kotlin-mode)
 
-;;;;;; Jave ;;;;;;
+;;;;;; Java ;;;;;;
 (setenv "JAVA_HOME"  ;; FIXME: versioning
         "/Library/Java/JavaVirtualMachines/graalvm-ce-java11-19.3.0.2/Contents/Home")
 
@@ -543,6 +579,7 @@
 
 (add-hook 'c-mode-hook (lambda () comment-style (quote multi-line)))
 
+(add-hook 'prog-mode-hook #'hs-minor-mode)
 
 ;;;;;; Ruby ;;;;;;
 ;;(add-hook 'ruby-mode-hook (lambda () (local-set-key 'f1 'ri)))
@@ -560,22 +597,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;  Build Tools  ;;;;;;;;
 ;; Bazel
-(use-package bazel-mode)
+(require 'bazel)
+;; (use-package bazel-mode)
 ;; (load "bazel-mode.el")
 ;; bazel-mode doesn't do indenting; use python mode
 (add-to-list 'auto-mode-alist '("\\.bazelrc" . bazel-mode))
 (add-to-list 'auto-mode-alist '("BUILD$" . bazel-mode))
-(add-to-list 'auto-mode-alist '("BUILD.bazel$" . bazel-mode))
+(add-to-list 'auto-mode-alist '(".bazel$" . bazel-mode))
 ;; (add-to-list 'auto-mode-alist '("/BUILD\\(\\..*\\)?\\'" . bazel-mode))
 (add-to-list 'auto-mode-alist '("WORKSPACE$" . bazel-mode))
 (add-to-list 'auto-mode-alist '("/WORKSPACE\\'" . bazel-mode))
 (add-to-list 'auto-mode-alist '("\\.\\(BUILD\\|WORKSPACE\\|bzl\\)\\'" . bazel-mode))
 
 ;; Groovy
-(use-package groovy-mode)
+;; (use-package groovy-mode)
 
 ;; Gradle
-(use-package gradle-mode)
+;; (use-package gradle-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;  Misc Tools  ;;;;;;;;
@@ -771,13 +809,13 @@
 
 (defalias 'qrr 'query-replace-regexp)
 
-;; (toggle-menu-bar-mode-from-frame)
-;; (defun toggle-fullscreen ()
-;;   (interactive)
-;;   (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
-;;                                            nil
-;;                                            'fullboth)))
-;; (global-set-key [(meta return)] 'toggle-fullscreen)
+(toggle-menu-bar-mode-from-frame)
+(defun toggle-fullscreen ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
+                                           nil
+                                           'fullboth)))
+(global-set-key [(meta return)] 'toggle-fullscreen)
 
 ;; (require 'xcscope)
 ;; (cscope-setup)
@@ -908,17 +946,18 @@
   ;; you may want to add different for other charset in this way.
   )
 
-(setq initial-frame-alist
-       '((left . 80)
-	 (top . 50)
-	 (height . 30)
-	 (width . 160)))
+(add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+;; (setq initial-frame-alist
+;;        '((left . 80)
+;; 	 (top . 50)
+;; 	 (height . 30)
+;; 	 (width . 160)))
 
-(setq default-frame-alist
-       '((left . 80)
-	 (top . 50)
-	 (height . 30)
-	 (width . 160)))
+;; (setq default-frame-alist
+;;        '((left . 80)
+;; 	 (top . 50)
+;; 	 (height . 30)
+;; 	 (width . 160)))
 
 (split-window-right)
 
@@ -999,4 +1038,8 @@ This command does the reverse of `fill-paragraph'."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(adoc-align ((t (:inherit bold-italic))))
+ '(markup-internal-reference-face ((t (:inherit markup-code-face :underline t))))
+ '(markup-meta-face ((t (:stipple nil :foreground "gray50" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 1.0 :width normal :foundry "unknown" :family "Monospace"))))
+ '(markup-reference-face ((t (:inherit markup-title-3-face :underline nil)))))
+(put 'upcase-region 'disabled nil)

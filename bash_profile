@@ -240,13 +240,16 @@ export PATH=$PATH:/Applications/CoqIDE_8.11.0.app/Contents/Resources/bin
 
 source $HOME/.dartrix.d/bashrc
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/gar/.sdkman"
-[[ -s "/Users/gar/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/gar/.sdkman/bin/sdkman-init.sh"
-
 # opam configuration
 test -r /Users/gar/.opam/opam-init/init.sh && . /Users/gar/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export OPAMROOT="$HOME/.opam"
+
+export XDG_CONFIG_HOME="$HOME/.config"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/gar/.sdkman"
+[[ -s "/Users/gar/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/gar/.sdkman/bin/sdkman-init.sh"
+

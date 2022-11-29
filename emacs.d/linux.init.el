@@ -610,10 +610,10 @@
 (add-to-list 'auto-mode-alist '("\\.\\(BUILD\\|WORKSPACE\\|bzl\\)\\'" . bazel-mode))
 
 ;; Groovy
-(use-package groovy-mode)
+;; (use-package groovy-mode)
 
 ;; Gradle
-(use-package gradle-mode)
+;; (use-package gradle-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;  Misc Tools  ;;;;;;;;

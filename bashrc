@@ -258,8 +258,5 @@ export PATH="/usr/local/lib/ruby/gems/2.5.0/bin:$PATH"
 # For pkg-config to find ncurses you may need to set:
 #   export PKG_CONFIG_PATH="/usr/local/opt/ncurses/lib/pkgconfig"
 
-# brew install:
-export PATH="/usr/local/opt/go@1.12/bin:$PATH"
-
 # installed by bazelisk? $(go env GOPATH) = ~/go
 export PATH=$PATH:$(go env GOPATH)/bin

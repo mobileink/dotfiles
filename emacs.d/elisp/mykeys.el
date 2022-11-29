@@ -97,7 +97,7 @@
 
     ("oplus"  "⊕" nil 0) ;; 2295 circled plus
     ("otimes" "⊗" nil 0) ;; 2297 circled times
-    ("root"   "√" nil 0) ;; 221A SQUARE ROOT
+    ("sqrt"   "√" nil 0) ;; 221A SQUARE ROOT
     ("star"   "⋆" nil 0) ;; 22C5 STAR OPERATOR
     ("bstar"  "★" nil 0) ;; 22605 BLACK STAR
     ("*6"     "✶" nil 0)  ;; 2736 SIX POINTED BLACK STAR
@@ -109,14 +109,14 @@
 
 (abbrev-mode 1)
 
-(global-set-key [\C-c \C-c] 'comment-region)
+;; (global-set-key [\C-c \C-c] 'comment-region)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; todo: make this elisp-mode specific
 (global-set-key [\C-c\C-r] 'eval-region)
 
-(global-set-key [?\C-c ?\C-c] 'comment-region)
+;; (global-set-key [?\C-c ?\C-c] 'comment-region)
 
 (global-set-key [C-M-\\] 'indent-region)
 (global-set-key [\C-/] 'undo)
@@ -125,7 +125,7 @@
 (global-set-key [?\M-?] 'help)
 
 ;(global-set-key [f2] 'delete-indentation)
-(global-set-key [f2] 'biosketch-mode)
+;; (global-set-key [f2] 'biosketch-mode)
 
 (global-set-key [f4] 'enlarge-window)
 
